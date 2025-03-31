@@ -44,18 +44,18 @@ def extract_text(pdf_path: str):
         artifact_dict=create_model_dict(),
     )
     
-    output_files = []
+    extracted_files = []
     
     for splitted_file in splitted_pages:
         rendered = converter(str(splitted_file))
         page_text = text_from_rendered(rendered)[0]
         
-        output_file = Path("output_files") / f"{splitted_file.stem}_extracted.txt"
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_file, "w", encoding="utf-8") as f:
+        extracted_file = Path("extracted_files") / f"{splitted_file.stem}_extracted.txt"
+        extracted_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(extracted_file, "w", encoding="utf-8") as f:
             f.write(page_text)
         
-        print(f"Extracted text for {splitted_file} has been saved to {output_file}")
-        output_files.append(output_file)
+        print(f"Extracted text for {splitted_file} has been saved to {extracted_file}")
+        extracted_files.append(extracted_file)
     
-    return output_files
+    return extracted_files

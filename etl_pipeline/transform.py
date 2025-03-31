@@ -25,11 +25,11 @@ def transform_text(text, input_filename: str):
     text = clean_text(text)
 
     # Create output filename based on input filename
-    output_file = Path("output_files") / f"{Path(input_filename).stem}_transformed.txt"
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    transform_file = Path("transformed_files") / f"{Path(input_filename).stem}_transformed.txt"
+    transform_file.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(transform_file, "w", encoding="utf-8") as f:
         f.write(text)
 
-    print(f"Transformed text has been saved to {output_file}")
-    return text, output_file
+    print(f"Transformed text has been saved to {transform_file}")
+    return text, transform_file

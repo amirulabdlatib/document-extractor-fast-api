@@ -1,6 +1,8 @@
 input_files/*
 output_files/*
 split_files/*
+transformed_files/*
+extracted_files/*
 .env
 venv
 __pycache__
