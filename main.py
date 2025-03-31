@@ -20,15 +20,20 @@ async def process_pdf():
     results = []
     for pdf_file in pdf_files:
         try:
-            extracted_text, extracted_file = extract_text(str(pdf_file))
-            transformed_text, transformed_file = transform_text(extracted_text, pdf_file.name)
+            extracted_files = extract_text(str(pdf_file))
             
-            results.append({
-                "pdf_file": pdf_file.name,
-                "extracted_file": str(extracted_file),
-                "transformed_file": str(transformed_file),
-                "status": "success"
-            })
+            for extracted_file in extracted_files:
+                with open(extracted_file, "r", encoding="utf-8") as f:
+                    extracted_text = f.read()
+                
+                transformed_text, transformed_file = transform_text(extracted_text, extracted_file.name)
+                
+                results.append({
+                    "pdf_file": pdf_file.name,
+                    "extracted_file": str(extracted_file),
+                    "transformed_file": str(transformed_file),
+                    "status": "success"
+                })
         except Exception as e:
             results.append({
                 "pdf_file": pdf_file.name,
@@ -40,6 +45,7 @@ async def process_pdf():
         "message": f"Processed {len(pdf_files)} PDF files",
         "results": results
     }
+
 
 if __name__ == "__main__":
     import uvicorn

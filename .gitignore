@@ -1,5 +1,6 @@
 input_files/*
 output_files/*
+split_files/*
 .env
 venv
 __pycache__
