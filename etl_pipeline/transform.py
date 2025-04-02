@@ -7,7 +7,7 @@ def clean_text(text):
     - Lines with markdown image tags of the format ![](_page_<number>_Picture_<number>.jpeg)
     - Lines containing the artifact "Scanned with S CamScanner"
     """
-    text = re.sub(r'<[^>]+>', '', text)
+    text = re.sub(r'<[^>]+>', ' ', text)
 
     # Pattern for markdown image tags, e.g., ![](_page_0_Picture_17.jpeg)
     pattern_images = r"^\s*!\[\]\(_page_\d+_Picture_\d+\.jpeg\)\s*$"

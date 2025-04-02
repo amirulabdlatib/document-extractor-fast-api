@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from etl_pipeline.extract import extract_text
 from etl_pipeline.transform import transform_text
+from etl_pipeline.load import load_files
 from pathlib import Path
 
 app = FastAPI()
@@ -27,13 +28,15 @@ async def process_pdf():
                     extracted_text = f.read()
                 
                 transformed_text, transformed_file = transform_text(extracted_text, extracted_file.name)
-                
+
                 results.append({
                     "pdf_file": pdf_file.name,
                     "extracted_file": str(extracted_file),
                     "transformed_file": str(transformed_file),
                     "status": "success"
                 })
+
+            load_files()
         except Exception as e:
             results.append({
                 "pdf_file": pdf_file.name,
