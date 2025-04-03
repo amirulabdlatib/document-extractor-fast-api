@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from etl_pipeline.extract import extract_text
 from etl_pipeline.transform import transform_text
 from etl_pipeline.load import load_files
+from rag_pipeline.inference import extract_information
 from pathlib import Path
 
 app = FastAPI()
@@ -27,7 +28,7 @@ async def process_pdf():
                 with open(extracted_file, "r", encoding="utf-8") as f:
                     extracted_text = f.read()
                 
-                transformed_text, transformed_file = transform_text(extracted_text, extracted_file.name)
+                transform_text(extracted_text, extracted_file.name)
 
                 results.append({
                     "pdf_file": pdf_file.name,
@@ -35,8 +36,10 @@ async def process_pdf():
                     "transformed_file": str(transformed_file),
                     "status": "success"
                 })
+            
+            docs = load_files()
+            extract_information(docs)
 
-            load_files()
         except Exception as e:
             results.append({
                 "pdf_file": pdf_file.name,
@@ -46,7 +49,8 @@ async def process_pdf():
     
     return {
         "message": f"Processed {len(pdf_files)} PDF files",
-        "results": results
+        "results": results,
+        "status": 200
     }
 
 
