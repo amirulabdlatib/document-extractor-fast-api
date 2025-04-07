@@ -43,7 +43,7 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
     prompt_template = """
         You are an assistant for question-answering tasks. Use the following retrieved context to answer the question. 
         Only output the answer itself, without any additional explanation or commentary. 
-        If there is no relevant information or you don't know the answer, reply with an empty string ("") or null.
+        If there is no relevant information or you don't know the answer, reply with an empty string ("") or null as this a fact extraction.
         
         Question: {question}
         Context: {context}
@@ -72,11 +72,11 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
 
 
 questions_and_models = [
-    # ("What is the borrower information?", BorrowerInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_1_extracted_transformed.txt"), 
-    # ("What is the bank information?", BankInformation, "transformed_files/27692-LO_page_11_extracted_transformed.txt"), 
-    ("What is the loan information?", LoanInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_4_extracted_transformed.tx"),
-    # ("What is the guorantor information", GuarantorInformation, "transformed_files/27692-SSM BEYOND LEGEND GROUP SDN. BHD_page_1_extracted_transformed.txt"), 
-    # ("What is the law firm information?", LawFirmInformation, "transformed_files/27692-LO_page_3_extracted_transformed.txt")
+    ("What is the CHURN PATISSERIE SDN. BHD information?", BorrowerInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_1_extracted_transformed.txt"), 
+    ("What is the bank information?", BankInformation, "transformed_files/27692-LO_page_11_extracted_transformed.txt"), 
+    ("What is the loan information?", LoanInformation, "transformed_files/27692-LO_page_4_extracted_transformed.txt"),
+    ("What is the BEYOND LEGEND GROUP SDN. BHD information?", GuarantorInformation, "transformed_files/27692-SSM BEYOND LEGEND GROUP SDN. BHD_page_1_extracted_transformed.txt"), 
+    ("What is the law firm information?", LawFirmInformation, "transformed_files/27692-LO_page_3_extracted_transformed.txt")
 ]
 
 
@@ -87,6 +87,8 @@ if __name__ == '__main__':
 
     for question, model, context in tqdm(questions_and_models, desc="Extracting information"):
         extracted_information.update(rag_workflow(question, model, context))
+        print(extracted_information)
+
 
     end_time = time.time()
     elapsed_time = end_time - start_time

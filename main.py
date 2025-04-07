@@ -4,6 +4,7 @@ from etl_pipeline.transform import transform_text
 from etl_pipeline.load import load_files
 from rag_pipeline.inference import extract_information
 from pathlib import Path
+import time
 
 app = FastAPI()
 
@@ -20,6 +21,9 @@ async def process_pdf():
         return {"message": "No PDF files found in the input_files directory"}
     
     results = []
+
+    start_time = time.time()
+
     for pdf_file in pdf_files:
         try:
             extracted_files = extract_text(str(pdf_file))
@@ -35,8 +39,6 @@ async def process_pdf():
                     "extracted_file": str(extracted_file),
                 })
             
-            docs = load_files()
-            # extract_information(docs)
 
         except Exception as e:
             results.append({
@@ -44,10 +46,23 @@ async def process_pdf():
                 "status": "error",
                 "error": str(e)
             })
+
+    docs = load_files()
+    result_json = extract_information(docs)
+    print(result_json)
+
+    end_time = time.time()
+
+    elapsed_time = end_time - start_time
+    print(f'Time taken for whole process in seconds: {elapsed_time:.2f} seconds')
     
+    minutes, seconds = divmod(elapsed_time, 60)
+    print(f"Total time taken for whole process in minutes and seconds: {int(minutes)} minutes and {seconds:.2f} seconds")
+
     return {
         "message": f"Processed {len(pdf_files)} PDF files",
         "results": results,
+        "inference_result": result_json,
         "status": 200
     }
 

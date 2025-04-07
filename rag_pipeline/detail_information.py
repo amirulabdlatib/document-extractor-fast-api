@@ -10,14 +10,14 @@ class BorrowerInformation(BaseModel):
 
 class BankInformation(BaseModel):
     """Contains information about the bank."""
-    bank_name: Optional[str] = Field(None, description="The name of the bank.")
+    bank_name: Optional[str] = Field(None, description="The official name of a bank operating in Malaysia. Must be one of the following: ""'CIMB', 'UOB', 'Maybank', 'ALLIANCE', 'Public Bank', or 'Standard Chartered'. ""If the extracted name is different or informal, map it to the closest valid Malaysian bank name.")
     bank_address: Optional[str] = Field(None, description="The address of the bank.")
     bank_registeration_number: Optional[str] = Field(None, description="The registeration number of the bank.")
 
 class LoanInformation(BaseModel):
     """Contains information about the loan."""
-    loan_amount: Optional[str] = Field(None, description="The amount of the loan in RM.")
-    letter_offer: Optional[str] = Field(None, description="The offer full date OF of the loan in DD-MM-YYYY .")
+    loan_amount: Optional[str] = Field(None, description="The mentioned approved limit in RM")
+    letter_offer: Optional[str] = Field(None, description="The full letter offer date in format DD/MM/YYYY or DD-MM-YYYY")
 
 class GuarantorInformation(BaseModel):
     """Contains information about the guarantor."""
