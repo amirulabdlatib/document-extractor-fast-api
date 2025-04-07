@@ -5,6 +5,8 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables import RunnablePassthrough
+import time
+from tqdm import tqdm
 
 from rag_pipeline.detail_information import (
                                                 BorrowerInformation,
@@ -68,21 +70,29 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
     return rag_chain.invoke(question)
 
 
-def extract_information(docs:list):
 
-    context = docs
+questions_and_models = [
+    # ("What is the borrower information?", BorrowerInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_1_extracted_transformed.txt"), 
+    # ("What is the bank information?", BankInformation, "transformed_files/27692-LO_page_11_extracted_transformed.txt"), 
+    ("What is the loan information?", LoanInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_4_extracted_transformed.tx"),
+    # ("What is the guorantor information", GuarantorInformation, "transformed_files/27692-SSM BEYOND LEGEND GROUP SDN. BHD_page_1_extracted_transformed.txt"), 
+    # ("What is the law firm information?", LawFirmInformation, "transformed_files/27692-LO_page_3_extracted_transformed.txt")
+]
 
-    questions_and_models = [
-        ("What is the borrower information?", BorrowerInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_1_extracted_transformed.txt"), 
-        ("What is the bank information?", BankInformation, "transformed_files/27692-LO_page_11_extracted_transformed.txt"), 
-        ("What is the loan information?", LoanInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_4_extracted_transformed.tx"),
-        ("What is the guorantor information", GuarantorInformation, "transformed_files/27692-SSM BEYOND LEGEND GROUP SDN. BHD_page_1_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files/27692-LO_page_3_extracted_transformed.txt")
-    ]
+
+if __name__ == '__main__':
+    start_time = time.time()
 
     extracted_information = {}
 
-    for question, model, context in questions_and_models:
+    for question, model, context in tqdm(questions_and_models, desc="Extracting information"):
         extracted_information.update(rag_workflow(question, model, context))
 
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
     print(extracted_information)
+    print(f"Total time taken: {elapsed_time:.2f} seconds")
+
+    minutes, seconds = divmod(elapsed_time, 60)
+    print(f"Total time taken: {int(minutes)} minutes and {seconds:.2f} seconds")

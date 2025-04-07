@@ -33,12 +33,10 @@ async def process_pdf():
                 results.append({
                     "pdf_file": pdf_file.name,
                     "extracted_file": str(extracted_file),
-                    "transformed_file": str(transformed_file),
-                    "status": "success"
                 })
             
             docs = load_files()
-            extract_information(docs)
+            # extract_information(docs)
 
         except Exception as e:
             results.append({

@@ -2,9 +2,6 @@ import os
 import re
 from langchain_community.document_loaders import DirectoryLoader
 
-def natural_sort_key(s):
-    return [int(text) if text.isdigit() else text.lower()
-            for text in re.split(r'(\d+)', s)]
 
 def load_files():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,6 +15,13 @@ def load_files():
     )
 
     docs = loader.load()
+
+    # Natural sort function
+    def natural_sort_key(s):
+        return [int(text) if text.isdigit() else text.lower()
+                for text in re.split(r'(\d+)', s)]
+
+    # Sort documents by source path using natural sorting
     docs = sorted(docs, key=lambda x: natural_sort_key(x.metadata['source']))
 
     print(f"Loaded {len(docs)} documents")
