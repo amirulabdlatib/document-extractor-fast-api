@@ -3,9 +3,9 @@ from pydantic import BaseModel, Field
 
 class BorrowerInformation(BaseModel):
     """Contains information about the borrower."""
-    borrower_name: Optional[str] = Field(None, description="The full name of the CHURN PATISSERIE SDN. BHD.")
-    borrower_registeration_number: Optional[str] = Field(None, description="The full Registration No. of the CHURN PATISSERIE SDN. BHD.")
-    borrower_address: Optional[str] = Field(None, description="The full bussiness address of the CHURN PATISSERIE SDN. BHD.")
+    borrower_name: Optional[str] = Field(None, description="The full name of the MAPLE SEA SDN. BHD.")
+    borrower_registeration_number: Optional[str] = Field(None, description="The full Registration No. of the MAPLE SEA SDN. BHD. Hint: ")
+    borrower_address: Optional[str] = Field(None, description="The full bussiness address of the MAPLE SEA SDN. BHD.")
     borrower_postcode: Optional[str] = Field(None, description="The 5 digit postcode of bussiness address for example 68100")
 
 class BankInformation(BaseModel):
@@ -21,8 +21,8 @@ class LoanInformation(BaseModel):
 
 class GuarantorInformation(BaseModel):
     """Contains information about the guarantor."""
-    guarantor_name: Optional[str] = Field(None, description="The full name of the BEYOND LEGEND GROUP SDN. BHD.")
-    guarantor_registeration_number: Optional[str] = Field(None, description="The full Registration No. of the BEYOND LEGEND GROUP SDN. BHD")
+    guarantor_name: Optional[str] = Field(None, description="The full name of the several guarantees seperated by commas")
+    guarantor_registeration_number: Optional[str] = Field(None, description="The full Malaysian Registration No. or NRIC or passport number or old IC number of the joint guarantees, if more than one seperate them by commas")
     guarantor_address: Optional[str] = Field(None, description="The full bussiness address of the BEYOND LEGEND GROUP SDN. BHD.")
     guarantor_postcode: Optional[str] = Field(None, description="The 5 digit postcode of bussiness address for example 68100")
 

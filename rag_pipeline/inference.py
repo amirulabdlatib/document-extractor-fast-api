@@ -75,11 +75,11 @@ def extract_information(docs:list):
     context = docs
 
     questions_and_models = [
-        ("What is the CHURN PATISSERIE SDN. BHD information?", BorrowerInformation, "transformed_files/27692-SSM CHURN PATISSERIE SDN. BHD_page_1_extracted_transformed.txt"), 
-        ("What is the bank information?", BankInformation, "transformed_files/27692-LO_page_11_extracted_transformed.txt"), 
-        ("What is the loan information?", LoanInformation, "transformed_files/27692-LO_page_4_extracted_transformed.txt"),
-        ("What is the BEYOND LEGEND GROUP SDN. BHD information?", GuarantorInformation, "transformed_files/27692-SSM BEYOND LEGEND GROUP SDN. BHD_page_1_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files/27692-LO_page_3_extracted_transformed.txt")
+        ("What is the MAPLE SEA SDN. BHD information?", BorrowerInformation, "transformed_files/UNI-20250312113132047616-1153468-uniROC-prepaid_en_page_1_extracted_transformed.txt"), 
+        ("What is the bank information?", BankInformation, "transformed_files/27763-LO_page_1_extracted_transformed.txt"), 
+        ("What is the loan information?", LoanInformation, "transformed_files/27763-LO_page_1_extracted_transformed.txt"),
+        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/27763-LO_page_7_extracted_transformed.txt"), 
+        ("What is the law firm information?", LawFirmInformation, "transformed_files/27763-LO_page_3_extracted_transformed.txt")
     ]
 
     extracted_information = {}
