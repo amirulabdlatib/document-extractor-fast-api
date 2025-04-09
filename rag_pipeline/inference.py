@@ -96,6 +96,5 @@ def extract_information(docs:list):
 
     minutes, seconds = divmod(elapsed_time, 60)
     print(f"Total time taken for LLM inferencing in minutes and seconds: {int(minutes)} minutes and {seconds:.2f} seconds")
-
-    print(extracted_information)
+    
     return(extracted_information)
