@@ -53,6 +53,7 @@ class PropertyInformation(BaseModel):
         )
     )
 
+
 class TitleInformation(BaseModel):
     """Contains information for land title."""
     title_description: Optional[str] = Field(
