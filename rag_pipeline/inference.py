@@ -14,7 +14,9 @@ from rag_pipeline.detail_information import (
                                                 LoanInformation,
                                                 GuarantorInformation,
                                                 LawFirmInformation,
-                                                TitleInformation
+                                                TitleInformation,
+                                                PropertyInformation,
+                                                FacilityInformation,
                                             )
 
 TEMPERATURE = 0.0
@@ -79,6 +81,8 @@ def extract_information(docs:list):
         ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
         ("What is the bank information?", BankInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
         ("What is the loan information?", LoanInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
+        ("What is the facility information?", FacilityInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
+        ("What is the property information?", PropertyInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
         ("Formulate is the title description", TitleInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
         ("What is the Guarantees information?", GuarantorInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"), 
         ("What is the law firm information?", LawFirmInformation, "transformed_files/26431-LO 1 (1)_page_3_extracted_transformed.txt"),
