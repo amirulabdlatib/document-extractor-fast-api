@@ -17,14 +17,16 @@ class BankInformation(BaseModel):
 class LoanInformation(BaseModel):
     """Contains information about the loan."""
     loan_amount: Optional[str] = Field(None, description="The mentioned total approved limit in RM, hint: the largest number found")
-    letter_offer: Optional[str] = Field(None, description="The date mentioned in the document and convert into DD-MM-YYYY for example 03-Mar-2024")
+    letter_offer_date: Optional[str] = Field(None, description="Look for the date closest to the subject of 'Letter of Offer' or a phrase like 'Our Reference' or 'Our Ref' or 'Date:'."
+                                                                "Stricly only one complete date allowed")
     subject_matter: Optional[str] = Field(
         None,
         description=(
-            "Extract the full detailed descriptions of all approved banking facilities or forms of facilities. "
-            "Look for sections or tables labeled 'Banking Facilities', 'Form of Facilities', or similar. "
+            "Extract the full detailed descriptions of all approved banking facilities or forms of facilities."
+            "Look for sections or tables labeled 'Banking Facilities', 'Form of Facilities', or similar."
             "For each facility (e.g., Term Loan, Overdraft, Bank Guarantee), capture the complete detail including interest rates, limits, and repayment or usage conditions. "
-            "The output should contain the full description for each facility exactly as provided in the source, and if multiple facilities are present, they should be concatenated into one string, with each full description separated by semicolons. "
+            "The output should contain the full description for each facility exactly as provided in the source, and if multiple facilities are present, they should be concatenated into one string, with each full description separated by commas."
+            "Omit any weird symbols or any seperators except the commas and full stop"
             "For example, if detailed information is present, do not reduce it to just the facility names."
         )
     )
