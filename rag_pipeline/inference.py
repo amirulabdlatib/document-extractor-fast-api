@@ -1,3 +1,7 @@
+import os
+import time
+from tqdm import tqdm
+from dotenv import load_dotenv
 from typing import Type
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
@@ -5,9 +9,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables import RunnablePassthrough
-import time
-from tqdm import tqdm
-
+from langfuse.callback import CallbackHandler
 from rag_pipeline.detail_information import (
                                                 BorrowerInformation,
                                                 BankInformation,
@@ -19,12 +21,21 @@ from rag_pipeline.detail_information import (
                                                 FacilityInformation,
                                             )
 
+load_dotenv()
+
 TEMPERATURE = 0.0
 MODEL = 'deepseek-r1:8b'
 BASE_URL = 'http://localhost:11434/'
 
 llm = ChatOllama(temperature=TEMPERATURE,model=MODEL,base_url=BASE_URL)
 results = {}
+
+
+langfuse_handler = CallbackHandler(
+    public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
+    secret_key=os.environ["LANGFUSE_SECRET_KEY"],
+    host=os.environ["LANGFUSE_URL"],
+)
 
 
 def read_file_content(path: str) -> str:
@@ -70,7 +81,7 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
         | parser
     )
 
-    return rag_chain.invoke(question)
+    return rag_chain.invoke(question,config={"callbacks":[langfuse_handler]})
 
 
 def extract_information(docs:list):
