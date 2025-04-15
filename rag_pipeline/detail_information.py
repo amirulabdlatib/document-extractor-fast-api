@@ -20,7 +20,7 @@ class LoanInformation(BaseModel):
     """Contains information about the loan."""
     loan_amount: Optional[str] = Field(None, description="The mentioned total approved limit in RM, hint: the largest number found")
     letter_offer_date: Optional[str] = Field(None, description="Look for the date closest to the subject of 'Letter of Offer' or a phrase like 'Our Reference' or 'Our Ref' or 'Date:'."
-                                                                "Stricly only one complete date allowed. Hint: it label as Date: or Tarikh:")
+                                                                "Stricly only one complete date allowed. Hint: it label as Date:")
 
 
 class FacilityInformation(BaseModel):
@@ -35,7 +35,8 @@ class FacilityInformation(BaseModel):
             "If multiple facilities are listed, concatenate all of them into one string and separate them strictly with a **single comma** followed by a space. "
             "Use **only** commas and full stops as separators—remove semicolons, bullet points, special characters, or any other formatting symbols. "
             "Do not add explanatory phrases or annotations. "
-            "Example output: 'Housing Loan ('HL') of Ringgit Malaysia Eight Hundred Thirty Five Thousand Ninety One only, RM835,091.00 to finance the purchase of a/an CONDOMINIUM known as UNIT NO 28-06 TYPE B BLOCK 1, (i) RESIDENSI TANGEN, SEGAMBUT WP KUALA LUMPUR, WP KUALA LUMPUR, MALAYSIA up to the sum of RM800,000.00 and (ii) to finance the premium for the MRTA policy taken on GARY LIM CHEE KIONG's life up to the sum of RM35,091.00.'"
+            "Example output 1: 'Housing Loan ('HL') of Ringgit Malaysia Eight Hundred Thirty Five Thousand Ninety One only'"
+            "Example output 2, example for multiple: 'Cashline Facility-i (CLF-i) - RM 1,000,000.00, Cashline Facility-i (CLF-i2) - RM 2,000,000.00, Commodity Murabahah Term Financing-i 1 - RM 3,543,566.23, Commodity Murabahah Term Financing-i 2 - RM 270,431.86, Commodity Murabahah Term Financing-i 3 - RM 51,704.87, Commodity Murabahah Term Financing-i 4 - RM 11,000,000.00, and Commodity Murabahah Term Financing-i 5 - RM 113,907.00. Total loan amount - RM 17,979,609.96.' "
         )
     )
 
@@ -64,12 +65,12 @@ class TitleInformation(BaseModel):
 
 class GuarantorInformation(BaseModel):
     """Contains information about the guarantor."""
-    guarantor_name: Optional[str] = Field(None, description="The full name of all guarantors (individuals or companies) mentioned in the document. Look for names that follow phrases like 'executed by', 'guarantee by', or appear in guarantee clauses." 
+    guarantor_name: Optional[str] = Field(None, description="The full name of all guarantors (individuals or companies or corporate) mentioned in the document. Look for names that follow phrases like 'executed by', 'guarantee by', or appear in guarantee clauses." 
                                           "Include all guarantors when multiple are listed with conjunctions like 'and' or separated by commas. Extract complete names without titles or identification numbers."
                                           "If it is confusing, identify first all mentioned individuals and companies that are surrounded by the guarantee word, then discard any guarantees names that has incomplete information as it should be a pair of name with its identification.")
     guarantor_registration_number: Optional[str] = Field(None, description="The identification numbers (NRIC, passport, company registration) of guarantors, typically appearing in parentheses or with prefixes like 'NRIC No.', 'New IC No.', 'Company No.' near guarantor names. Separate multiple numbers by commas.")
     guarantor_address: Optional[str] = Field(None, description="The full business or individual guarantors' address")
-    guarantor_postcode: Optional[str] = Field(None, description="The 5 digit postcode of business address for example 68100")
+    guarantor_postcode: Optional[str] = Field(None, description="The 5 digit postcode of business address for example 68100. 68100 is example not the actual postcode in my description")
 
 
 class LawFirmInformation(BaseModel):
