@@ -48,8 +48,8 @@ async def process_pdf():
             })
 
     docs = load_files()
-    result_json = extract_information(docs)
-    print(result_json)
+    # result_json = extract_information(docs)
+    # print(result_json)
 
     end_time = time.time()
 
@@ -62,7 +62,7 @@ async def process_pdf():
     return {
         "message": f"Processed {len(pdf_files)} PDF files",
         "results": results,
-        "inference_result": result_json,
+        # "inference_result": result_json,
         "status": 200
     }
 
