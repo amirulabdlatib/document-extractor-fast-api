@@ -57,7 +57,7 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
     prompt_template = """
         You are an assistant for question-answering tasks. Use the following retrieved context to answer the question. 
         Only output the answer itself, without any additional explanation or commentary. 
-        If there is no relevant information or you don't know the answer, reply with an empty string null.
+        If there is no relevant information or you don't know the answer, reply with an empty string ("") or null.
         
         Question: {question}
         Context: {context}
@@ -96,7 +96,7 @@ def extract_information(docs:list):
         ("What is the property information?", PropertyInformation, "transformed_files/LO (1)_page_4_extracted_transformed.txt"),
         ("Formulate is the title description", TitleInformation, "transformed_files/LO (1)_page_5_extracted_transformed.txt"),
         ("What is the Guarantees information?", GuarantorInformation, "transformed_files/LO (1)_page_2_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files\LO (1)_page_2_extracted_transformed.txt"),
+        ("What is the law firm information?", LawFirmInformation, "transformed_files/LO (1)_page_2_extracted_transformed.txt"),
     ]
 
     extracted_information = {}
