@@ -1,3 +1,7 @@
+import os
+import time
+from tqdm import tqdm
+from dotenv import load_dotenv
 from typing import Type
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
@@ -5,16 +9,19 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables import RunnablePassthrough
-import time
-from tqdm import tqdm
-
+from langfuse.callback import CallbackHandler
 from rag_pipeline.detail_information import (
                                                 BorrowerInformation,
                                                 BankInformation,
                                                 LoanInformation,
                                                 GuarantorInformation,
-                                                LawFirmInformation
+                                                LawFirmInformation,
+                                                TitleInformation,
+                                                PropertyInformation,
+                                                FacilityInformation,
                                             )
+
+load_dotenv()
 
 TEMPERATURE = 0.0
 MODEL = 'deepseek-r1:8b'
@@ -22,6 +29,13 @@ BASE_URL = 'http://localhost:11434/'
 
 llm = ChatOllama(temperature=TEMPERATURE,model=MODEL,base_url=BASE_URL)
 results = {}
+
+
+langfuse_handler = CallbackHandler(
+    public_key=os.environ["LANGFUSE_PUBLIC_KEY"],
+    secret_key=os.environ["LANGFUSE_SECRET_KEY"],
+    host=os.environ["LANGFUSE_URL"],
+)
 
 
 def read_file_content(path: str) -> str:
@@ -67,7 +81,7 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
         | parser
     )
 
-    return rag_chain.invoke(question)
+    return rag_chain.invoke(question,config={"callbacks":[langfuse_handler]})
 
 
 def extract_information(docs:list):
@@ -75,11 +89,14 @@ def extract_information(docs:list):
     context = docs
 
     questions_and_models = [
-        ("What is the MAPLE SEA SDN. BHD information?", BorrowerInformation, "transformed_files/UNI-20250312113132047616-1153468-uniROC-prepaid_en_page_1_extracted_transformed.txt"), 
-        ("What is the bank information?", BankInformation, "transformed_files/27763-LO_page_1_extracted_transformed.txt"), 
-        ("What is the loan information?", LoanInformation, "transformed_files/27763-LO_page_1_extracted_transformed.txt"),
-        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/27763-LO_page_7_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files/27763-LO_page_3_extracted_transformed.txt")
+        ("What is the SEME AUTOMOTIVE SDN. BHD. information?", BorrowerInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
+        ("What is the bank information?", BankInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
+        ("What is the loan information?", LoanInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
+        ("What is the facility information?", FacilityInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
+        ("What is the property information?", PropertyInformation, "transformed_files/27159-LO NEW_page_13_extracted_transformed.txt"),
+        ("Formulate is the title description", TitleInformation, "transformed_files/27159-LO NEW_page_13_extracted_transformed.txt"),
+        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/27159-LO NEW_page_14_extracted_transformed.txt"), 
+        ("What is the law firm information?", LawFirmInformation, "transformed_files/27159-LO NEW_page_4_extracted_transformed.txt"),
     ]
 
     extracted_information = {}
