@@ -89,7 +89,7 @@ def extract_information(docs:list):
     context = docs
 
     questions_and_models = [
-        ("What is the SEME AUTOMOTIVE SDN. BHD. information?", BorrowerInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
+        ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
         ("What is the bank information?", BankInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
         ("What is the loan information?", LoanInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
         ("What is the facility information?", FacilityInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
