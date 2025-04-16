@@ -23,9 +23,9 @@ from rag_pipeline.detail_information import (
 
 load_dotenv()
 
-TEMPERATURE = 0.0
-MODEL = 'deepseek-r1:8b'
-BASE_URL = 'http://localhost:11434/'
+TEMPERATURE = float(os.environ["TEMPERATURE"])
+MODEL = os.environ["INFERENCE_MODEL"]
+BASE_URL = os.environ["BASE_URL"]
 
 llm = ChatOllama(temperature=TEMPERATURE,model=MODEL,base_url=BASE_URL)
 results = {}
@@ -89,14 +89,14 @@ def extract_information(docs:list):
     context = docs
 
     questions_and_models = [
-        ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
-        ("What is the bank information?", BankInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"), 
-        ("What is the loan information?", LoanInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
-        ("What is the facility information?", FacilityInformation, "transformed_files/27159-LO NEW_page_5_extracted_transformed.txt"),
-        ("What is the property information?", PropertyInformation, "transformed_files/27159-LO NEW_page_13_extracted_transformed.txt"),
-        ("Formulate is the title description", TitleInformation, "transformed_files/27159-LO NEW_page_13_extracted_transformed.txt"),
-        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/27159-LO NEW_page_14_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files/27159-LO NEW_page_4_extracted_transformed.txt"),
+        ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
+        ("What is the bank information?", BankInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
+        ("What is the loan information?", LoanInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
+        ("What is the facility information?", FacilityInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
+        ("What is the property information?", PropertyInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
+        ("Formulate is the title description", TitleInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
+        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"), 
+        ("What is the law firm information?", LawFirmInformation, "transformed_files/26431-LO 1 (1)_page_3_extracted_transformed.txt"),
     ]
 
     extracted_information = {}

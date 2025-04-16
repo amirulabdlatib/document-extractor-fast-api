@@ -7,7 +7,8 @@ load_dotenv()
 
 def getEmbeddings():
     embeddings = OllamaEmbeddings(
-        model=os.environ["EMBEDDINGS_MODEL"]
+        model=os.environ["EMBEDDINGS_MODEL"],
+        base_url=os.environ["BASE_URL"]
     )
     
     print(embeddings)
