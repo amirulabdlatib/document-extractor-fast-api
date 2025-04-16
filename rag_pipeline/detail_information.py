@@ -3,9 +3,9 @@ from pydantic import BaseModel, Field
 
 class BorrowerInformation(BaseModel):
     """Contains information about the borrower."""
-    borrower_name: Optional[str] = Field(None, description="The full name of the SEME AUTOMOTIVE SDN. BHD., if more than one seperate them by commas ")
+    borrower_name: Optional[str] = Field(None, description="The full name of the SHINJING AUTO PARTS SDN. BHD., if more than one seperate them by commas ")
     borrower_registration_number: Optional[str] = Field(None, description="The full Malaysian Registration No. or Malaysian NRIC or passport number or old IC number of the borrower or joint borrowers, if more than one seperate them by commas")
-    borrower_address: Optional[str] = Field(None, description="The full address of the SEME AUTOMOTIVE SDN. BHD. ")
+    borrower_address: Optional[str] = Field(None, description="The full address of the SHINJING AUTO PARTS SDN. BHD. ")
     borrower_postcode: Optional[str] = Field(None, description="The 5 digit postcode of address for example 68100")
 
 
