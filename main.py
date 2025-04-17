@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from etl_pipeline.extract import extract_text
 from etl_pipeline.transform import transform_text
 from etl_pipeline.load import load_files
-from rag_pipeline.embeddings_v1.py import getEmbeddings
+from rag_pipeline.embedding_pipeline import embed_and_store_documents
 from rag_pipeline.inference import extract_information
 from pathlib import Path
 import time
@@ -50,6 +50,7 @@ async def process_pdf():
 
     docs = load_files()
     
+    embed_and_store_documents(docs)
     
     # result_json = extract_information(docs)
     # print(result_json)
