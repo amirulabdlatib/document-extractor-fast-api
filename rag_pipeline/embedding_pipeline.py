@@ -70,7 +70,7 @@ def embed_and_store_documents(docs: List):
             for doc in docs:
                 batch.add_object(
                     properties={
-                        "page_content": doc["page_content"],
+                        "page_content": doc.page_content,
                     },
                 )
                 if batch.number_errors > 10:

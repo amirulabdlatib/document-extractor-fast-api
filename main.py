@@ -50,10 +50,7 @@ async def process_pdf():
             })
 
     docs = load_files()
-    
-    print(type(docs))
-    
-    # embed_and_store_documents(docs)
+    embed_and_store_documents(docs)
     
     # result_json = extract_information(docs)
     # print(result_json)
