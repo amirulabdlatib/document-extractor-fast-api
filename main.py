@@ -13,6 +13,7 @@ app = FastAPI()
 async def read_root():
     return {"message": "Hello, World!"}
 
+
 @app.post("/process-pdf")
 async def process_pdf():
     input_dir = Path("input_files")
@@ -50,7 +51,9 @@ async def process_pdf():
 
     docs = load_files()
     
-    embed_and_store_documents(docs)
+    print(type(docs))
+    
+    # embed_and_store_documents(docs)
     
     # result_json = extract_information(docs)
     # print(result_json)
