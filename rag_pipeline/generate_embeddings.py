@@ -2,8 +2,6 @@ import os
 from dotenv import load_dotenv
 from langchain_ollama import OllamaEmbeddings
 
-load_dotenv()
-
 
 def getEmbeddings():
     embeddings = OllamaEmbeddings(
@@ -15,6 +13,8 @@ def getEmbeddings():
 
 
 if __name__ == "__main__":
-    print("Run from vector embedding python file")
     
+    load_dotenv()
+    
+    print("Run from vector embedding python file")
     print(getEmbeddings())
