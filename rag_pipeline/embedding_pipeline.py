@@ -24,6 +24,27 @@ def cleanup_weaviate():
         print("All collections deleted successfully")
 
 
+def retrieve_documents():
+    with weaviate.connect_to_local() as client:
+        print("Connected to Weaviate")
+
+        # Querying the 'DemoCollection' to retrieve stored documents
+        collection = client.collections.get("DemoCollection")
+        response = collection.query.near_text(
+            query="A holiday film",  # The model provider integration will automatically vectorize the query
+            limit=2
+        )
+        
+        if response.objects:
+            print("Retrieved documents:")
+            for obj in response.objects:
+                print(obj.properties["page_content"])
+            return [obj.properties for obj in response.objects]
+        else:
+            print("No documents found.")
+            return []
+
+
 def embed_and_store_documents(docs: List):
     
     cleanup_weaviate()
@@ -76,3 +97,4 @@ if __name__ == "__main__":
     
     
     embed_and_store_documents(source_objects)
+    retrieved_documents = retrieve_documents()
