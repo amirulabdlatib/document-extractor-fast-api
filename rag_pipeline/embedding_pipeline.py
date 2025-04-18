@@ -3,6 +3,7 @@ import warnings
 import weaviate
 from typing import List
 from dotenv import load_dotenv
+from langchain.schema import Document
 from weaviate.classes.config import Configure
 
 warnings.filterwarnings("ignore")
@@ -88,11 +89,11 @@ def embed_and_store_documents(docs: List):
 if __name__ == "__main__":
     
     source_objects = [
-        {"page_content": "A wrongfully imprisoned man forms an inspiring friendship while finding hope and redemption in the darkest of places."},
-        {"page_content": "A powerful mafia family struggles to balance loyalty, power, and betrayal in this iconic crime saga."},
-        {"page_content": "Batman faces his greatest challenge as he battles the chaos unleashed by the Joker in Gotham City."},
-        {"page_content": "A desperate father goes to hilarious lengths to secure the season's hottest toy for his son on Christmas Eve."},
-        {"page_content": "A miserly old man is transformed after being visited by three ghosts on Christmas Eve in this timeless tale of redemption."}
+        Document(page_content="A wrongfully imprisoned man forms an inspiring friendship while finding hope and redemption in the darkest of places."),
+        Document(page_content="A powerful mafia family struggles to balance loyalty, power, and betrayal in this iconic crime saga."),
+        Document(page_content="Batman faces his greatest challenge as he battles the chaos unleashed by the Joker in Gotham City."),
+        Document(page_content="A desperate father goes to hilarious lengths to secure the season's hottest toy for his son on Christmas Eve."),
+        Document(page_content="A miserly old man is transformed after being visited by three ghosts on Christmas Eve in this timeless tale of redemption.")
     ]
     
     
