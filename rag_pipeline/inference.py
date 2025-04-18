@@ -1,5 +1,6 @@
 import os
 import time
+import weaviate
 from tqdm import tqdm
 from dotenv import load_dotenv
 from typing import Type
@@ -46,11 +47,29 @@ def read_file_content(path: str) -> str:
     except Exception as e:
         return f"Failed to read file: {e}"
 
+def retrieve_documents(question: str):
+    print(f'Question: {question}\n')
 
-def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
+    with weaviate.connect_to_local() as client:
+        collection = client.collections.get("DemoCollection")
+        response = collection.query.near_text(
+            query=question,
+            limit=1
+        )
+
+        if response.objects:
+            results = [obj.properties["page_content"] for obj in response.objects]
+            print("Retrieved document(s):")
+            for doc in results:
+                print(f"- {doc}\n")
+            return results
+        else:
+            print("No documents found.")
+            return []
+
+
+def rag_workflow(question:str,model_class:Type[BaseModel]):
     
-    context = read_file_content(path)
-
     parser = JsonOutputParser(pydantic_object=model_class)
     format_instruction = parser.get_format_instructions()
 
@@ -72,7 +91,7 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
     
     rag_chain = (
         {
-            "context": RunnableLambda(lambda _: context),
+            "context": RunnableLambda(lambda q: retrieve_documents(q)),
             "question": RunnablePassthrough(),
             "format_instruction": RunnableLambda(lambda _: format_instruction)
         }
@@ -84,27 +103,25 @@ def rag_workflow(question:str,model_class:Type[BaseModel],path:str):
     return rag_chain.invoke(question,config={"callbacks":[langfuse_handler]})
 
 
-def extract_information(docs:list):
-
-    context = docs
+def extract_information():
 
     questions_and_models = [
-        ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
-        ("What is the bank information?", BankInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"), 
-        ("What is the loan information?", LoanInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
-        ("What is the facility information?", FacilityInformation, "transformed_files/26431-LO 1 (1)_page_4_extracted_transformed.txt"),
-        ("What is the property information?", PropertyInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
-        ("Formulate is the title description", TitleInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"),
-        ("What is the Guarantees information?", GuarantorInformation, "transformed_files/26431-LO 1 (1)_page_5_extracted_transformed.txt"), 
-        ("What is the law firm information?", LawFirmInformation, "transformed_files/26431-LO 1 (1)_page_3_extracted_transformed.txt"),
+        ("What is the SHINJING AUTO PARTS SDN. BHD. information?", BorrowerInformation), 
+        ("What is the bank information?", BankInformation), 
+        ("What is the loan information?", LoanInformation),
+        ("What is the facility information?", FacilityInformation),
+        ("What is the property information?", PropertyInformation),
+        ("Formulate is the title description", TitleInformation),
+        ("What is the Guarantees information?", GuarantorInformation), 
+        ("What is the law firm information?", LawFirmInformation),
     ]
 
     extracted_information = {}
 
     start_time = time.time()
 
-    for question, model, context in tqdm(questions_and_models,desc="Extracting information..."):
-        extracted_information.update(rag_workflow(question, model, context))
+    for question, model in tqdm(questions_and_models,desc="Extracting information..."):
+        extracted_information.update(rag_workflow(question, model))
 
     end_time = time.time()
     elapsed_time = end_time - start_time

@@ -2,10 +2,13 @@ from fastapi import FastAPI
 from etl_pipeline.extract import extract_text
 from etl_pipeline.transform import transform_text
 from etl_pipeline.load import load_files
-from rag_pipeline.embedding_pipeline import embed_and_store_documents
+from rag_pipeline.embedding_pipeline import embed_and_store_documents, print_all_documents
 from rag_pipeline.inference import extract_information
 from pathlib import Path
 import time
+import warnings
+
+warnings.filterwarnings("ignore")
 
 app = FastAPI()
 
@@ -50,10 +53,15 @@ async def process_pdf():
             })
 
     docs = load_files()
+    
+    # embeddings documents
     embed_and_store_documents(docs)
     
-    # result_json = extract_information(docs)
-    # print(result_json)
+    # for viewing index document on vector db
+    print_all_documents() 
+    
+    result_json = extract_information()
+    print(result_json)
 
     end_time = time.time()
 
@@ -66,7 +74,7 @@ async def process_pdf():
     return {
         "message": f"Processed {len(pdf_files)} PDF files",
         "results": results,
-        # "inference_result": result_json,
+        "inference_result": result_json,
         "status": 200
     }
 

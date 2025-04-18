@@ -57,7 +57,7 @@ def embed_and_store_documents(docs: List):
             vectorizer_config=[
                 Configure.NamedVectors.text2vec_ollama(
                     name="title_vector",
-                    source_properties=["title"],
+                    source_properties=["page_content"],
                     api_endpoint=os.environ["WEAVIATE_OLLAMA_URL"],
                     model=os.environ["EMBEDDINGS_MODEL"],
                 )
@@ -86,6 +86,39 @@ def embed_and_store_documents(docs: List):
             print(f"Successfully imported {len(docs)} documents.")
 
 
+def print_all_documents():
+    """Retrieve and print all documents from the Weaviate collection"""
+    with weaviate.connect_to_local() as client:
+        print("Connected to Weaviate")
+        
+        # Check if collection exists
+        collections = client.collections.list_all()
+        if "DemoCollection" not in collections:
+            print("DemoCollection does not exist")
+            return
+        
+        # Get the collection
+        collection = client.collections.get("DemoCollection")
+        
+        # Get total count
+        count = collection.aggregate.over_all().total_count
+        print(f"Total documents in collection: {count}")
+        
+
+        limit = min(100, count)
+        response = collection.query.fetch_objects(limit=limit)
+        
+        if response.objects:
+            print("\nAll documents in collection:")
+            print("----------------------------")
+            for i, obj in enumerate(response.objects, 1):
+                print(f"{i}. ID: {obj.uuid}")
+                print(f"   Content: {obj.properties['page_content']}")
+                print()
+        else:
+            print("No documents found in collection.")
+
+
 if __name__ == "__main__":
     
     source_objects = [
@@ -99,3 +132,4 @@ if __name__ == "__main__":
     
     embed_and_store_documents(source_objects)
     retrieved_documents = retrieve_documents()
+    print_all_documents()
