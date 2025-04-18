@@ -48,7 +48,6 @@ def read_file_content(path: str) -> str:
         return f"Failed to read file: {e}"
 
 def retrieve_documents(question: str):
-    print(f'Question: {question}\n')
 
     with weaviate.connect_to_local() as client:
         collection = client.collections.get("DemoCollection")
@@ -59,9 +58,6 @@ def retrieve_documents(question: str):
 
         if response.objects:
             results = [obj.properties["page_content"] for obj in response.objects]
-            print("Retrieved document(s):")
-            for doc in results:
-                print(f"- {doc}\n")
             return results
         else:
             print("No documents found.")

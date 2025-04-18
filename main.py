@@ -58,7 +58,7 @@ async def process_pdf():
     embed_and_store_documents(docs)
     
     # for viewing index document on vector db
-    print_all_documents() 
+    # print_all_documents() 
     
     result_json = extract_information()
     print(result_json)
