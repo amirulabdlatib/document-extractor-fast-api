@@ -1,6 +1,6 @@
 # Document Extractor FastAPI
 
-A **100% RAG Privacy First (Retrieval-Augmented Generation) document extraction system** powered by **Ollama + DeepSeek** for complete privacy-first document processing. This proof-of-concept architecture ensures **zero data exposure to third parties** by running entirely on your local infrastructure.
+A **100% RAG Privacy First (Retrieval-Augmented Generation) document extraction system** powered by **Ollama** for complete privacy-first document processing. This proof-of-concept architecture ensures **zero data exposure to third parties** by running entirely on your local infrastructure.
 
 ## 🔒 Privacy-First Architecture
 
